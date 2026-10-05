@@ -54,17 +54,20 @@ O segmento `<hash>` vem do auxiliar EA18; `<arquivo-bu>` é o nome indicado no m
 ### Configuração de candidatos — EA20
 
 ```text
+https://resultados.tse.jus.br/oficial/ele2026/6259/dados/mg/mg40193-c0005-e006259-u.json
 https://resultados.tse.jus.br/oficial/ele2026/6259/dados/mg/mg40193-c0006-e006259-u.json
 https://resultados.tse.jus.br/oficial/ele2026/6259/dados/mg/mg40193-c0007-e006259-u.json
 ```
 
-Os códigos `0006` e `0007` identificam deputado federal e estadual. Esses JSONs são consultados pelo script de soma para associar número e partido ao nome divulgado.
+Os códigos `0005`, `0006` e `0007` identificam senador, deputado federal e estadual. Esses JSONs são consultados pelo script de soma para associar número, partido e nome de urna ao resultado.
 
 ## Arquivos no repositório
 
 - [`../scripts/baixar_bu_raw_aguas_vermelhas_2026.py`](../scripts/baixar_bu_raw_aguas_vermelhas_2026.py): baixa e preserva BUs completos em `.dat`, além de gravar um manifesto com hash SHA-256 local.
 - [`../scripts/baixar_boletins_por_secao_aguas_vermelhas_2026.py`](../scripts/baixar_boletins_por_secao_aguas_vermelhas_2026.py): baixa os BUs e extrai votos nominais positivos dos cargos-alvo.
-- [`../scripts/somar_deputado_federal_por_distrito_bairro.py`](../scripts/somar_deputado_federal_por_distrito_bairro.py): junta a extração por seção ao mapa de locais/distritos e gera totais por distrito/bairro e por candidato.
+- [`../scripts/somar_deputado_federal_por_distrito_bairro.py`](../scripts/somar_deputado_federal_por_distrito_bairro.py): junta a extração federal por seção ao mapa de locais/distritos e gera totais por distrito/bairro e por candidato.
+- [`../scripts/somar_senador_por_distrito_bairro.py`](../scripts/somar_senador_por_distrito_bairro.py): faz a mesma agregação para senador.
+- [`../dados/votos_senador_por_distrito_bairro.csv`](../dados/votos_senador_por_distrito_bairro.csv) e [`../dados/votos_senador_por_candidato_distrito_bairro.csv`](../dados/votos_senador_por_candidato_distrito_bairro.csv): totais e detalhamento do senador por distrito/bairro.
 - [`../dados/raw/boletins/0213/`](../dados/raw/boletins/0213/): arquivos BU brutos `.dat` por seção.
 - [`../dados/boletins_aguas_vermelhas_2026.zip`](../dados/boletins_aguas_vermelhas_2026.zip): pacote dos BUs, auxiliares, schema e materiais usados na coleta.
 - [`../dados/votos_por_secao_e_candidato.csv`](../dados/votos_por_secao_e_candidato.csv) e [`../dados/votos_somados_por_candidato.csv`](../dados/votos_somados_por_candidato.csv): resultados processados; incluem votos nominais positivos, não os votos brancos, nulos, de legenda ou candidatos com zero voto.
