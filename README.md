@@ -36,3 +36,14 @@ Para decodificar e gerar as planilhas de votos, consulte as instruções em [`do
 Os arquivos `votos_por_secao_e_candidato.csv` e `votos_somados_por_candidato.csv` contêm votos nominais positivos para deputado federal e estadual. Candidatos com zero voto e votos de legenda, branco e nulo não aparecem nesses CSVs. Os `.dat` são os boletins completos publicados para as seções, com status totalizado.
 
 Confira status, hash e fontes na documentação antes de reutilizar os dados. Os resultados processados são transformação dos arquivos oficiais e não substituem a conferência do BU original.
+
+
+## Aba de senador (branch `senador-tab`)
+
+A branch separada acrescenta a extração do cargo **Senador** aos mesmos boletins de urna brutos. O parser `baixar_boletins_por_secao_aguas_vermelhas_2026.py` agora usa os códigos 5 (senador), 6 (deputado federal) e 7 (deputado estadual). O novo agregador é `scripts/somar_senador_por_distrito_bairro.py`.
+
+Os resultados derivados da extração dos BUs brutos são:
+- `dados/votos_senador_por_distrito_bairro.csv`;
+- `dados/votos_senador_por_candidato_distrito_bairro.csv`.
+
+O relatório `relatorio_deputados_federal_estadual_senador_mobile_first.html` tem uma terceira aba para senador, com distritos/bairros em ordem decrescente de votos, candidatos com voto e ranking consolidado. O Centro é exibido como “Sede do município”; o partido fica na penúltima coluna.
