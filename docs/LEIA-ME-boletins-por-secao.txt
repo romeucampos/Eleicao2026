@@ -1,0 +1,18 @@
+Boletins de urna por seção — Águas Vermelhas/MG — Eleições 2026
+
+Como executar
+1. Instale a dependência: python3 -m pip install -r requirements_boletins_tse.txt
+2. Execute: python3 baixar_boletins_por_secao_aguas_vermelhas_2026.py
+
+O script consulta o índice de seções do TSE, baixa o arquivo auxiliar (EA18) de cada seção principal, seleciona o boletim com status Totalizado e salva o arquivo bruto .dat. Ele usa o leiaute ASN.1 publicado pelo TSE para extrair os votos nominais de Deputado Federal e Deputado Estadual.
+
+Arquivos produzidos
+- boletins/0213/<seção>/: boletim .dat bruto de cada seção processada.
+- auxiliares/: JSONs EA18 usados para localizar e identificar cada BU.
+- votos_por_secao_e_candidato.csv: uma linha por voto positivo em candidato, seção e cargo. Ausência de uma linha equivale a zero voto naquele candidato naquela seção.
+- votos_somados_por_candidato.csv: soma dos BUs por candidato e cargo.
+- config/ e spec/: índice de seções e leiaute ASN.1 usados para auditoria e reprocessamento.
+
+São 31 seções principais no índice da coleta. Seções eleitorais agregadas são contabilizadas no BU da seção principal para não duplicar votos.
+
+A soma dos BUs processados foi 7.021 votos para Deputado Federal e 6.408 para Deputado Estadual. O resultado municipal EA20 no snapshot consultado indicava 6.402 para Estadual. A diferença de 6 está nos BUs: 5 votos para o número 10122 (Republicanos) e 1 voto para 23123 (Cidadania), números que não constavam na lista municipal de candidatos do EA20 consultada. O CSV preserva esses votos como números sem correspondência de nome, para conferência; os arquivos brutos permitem reprocessamento.
