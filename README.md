@@ -5,12 +5,13 @@ Scripts e resultados para consultar boletins de urna por seção e somar votos n
 ## Conteúdo
 
 - `scripts/`: scripts Python de download e extração.
-- `dados/`: CSVs resultantes, mapa de seções por local/distrito e cópia compactada dos boletins originais.
-- `documentos/`: relatório de seções e quantidade de eleitores.
+- `dados/`: CSVs de resultados, mapa de seções, arquivos ZIP e planilha.
+- `dados/raw/boletins/0213/<seção>/`: 31 boletins oficiais completos em formato `.dat`, disponibilizados também no ZIP.
+- `docs/`: relatório de seções e quantidade de eleitores.
 
 ## Escopo dos CSVs atuais
 
-Os arquivos `votos_por_secao_e_candidato.csv` e `votos_somados_por_candidato.csv` contêm votos nominais positivos para os cargos de deputado federal e estadual. Candidatos com zero voto e votos de legenda, branco e nulo não aparecem nesses CSVs. Os boletins `.dat` arquivados são os arquivos completos baixados do TSE para as 31 seções principais, com status totalizado.
+Os arquivos `votos_por_secao_e_candidato.csv` e `votos_somados_por_candidato.csv` contêm votos nominais positivos para os cargos de deputado federal e estadual. Candidatos com zero voto e votos de legenda, branco e nulo não aparecem nesses CSVs. Os boletins `.dat` brutos contêm os dados completos publicados para as seções, com status totalizado.
 
 ## Executar
 
