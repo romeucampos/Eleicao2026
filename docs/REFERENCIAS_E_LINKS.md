@@ -64,9 +64,11 @@ Os códigos `0006` e `0007` identificam deputado federal e estadual. Esses JSONs
 
 - [`../scripts/baixar_bu_raw_aguas_vermelhas_2026.py`](../scripts/baixar_bu_raw_aguas_vermelhas_2026.py): baixa e preserva BUs completos em `.dat`, além de gravar um manifesto com hash SHA-256 local.
 - [`../scripts/baixar_boletins_por_secao_aguas_vermelhas_2026.py`](../scripts/baixar_boletins_por_secao_aguas_vermelhas_2026.py): baixa os BUs e extrai votos nominais positivos dos cargos-alvo.
+- [`../scripts/somar_deputado_federal_por_distrito_bairro.py`](../scripts/somar_deputado_federal_por_distrito_bairro.py): junta a extração por seção ao mapa de locais/distritos e gera totais por distrito/bairro e por candidato.
 - [`../dados/raw/boletins/0213/`](../dados/raw/boletins/0213/): arquivos BU brutos `.dat` por seção.
 - [`../dados/boletins_aguas_vermelhas_2026.zip`](../dados/boletins_aguas_vermelhas_2026.zip): pacote dos BUs, auxiliares, schema e materiais usados na coleta.
 - [`../dados/votos_por_secao_e_candidato.csv`](../dados/votos_por_secao_e_candidato.csv) e [`../dados/votos_somados_por_candidato.csv`](../dados/votos_somados_por_candidato.csv): resultados processados; incluem votos nominais positivos, não os votos brancos, nulos, de legenda ou candidatos com zero voto.
+- [`../dados/votos_deputado_federal_por_distrito_bairro.csv`](../dados/votos_deputado_federal_por_distrito_bairro.csv) e [`../dados/votos_federal_por_candidato_distrito_bairro.csv`](../dados/votos_federal_por_candidato_distrito_bairro.csv): agregação federal por distrito/bairro e detalhamento por candidato.
 - [`../dados/secoes_por_local_distrito_aguas_vermelhas.csv`](../dados/secoes_por_local_distrito_aguas_vermelhas.csv): relação de seções por local/distrito extraída do PDF fornecido.
 - [`../docs/SECOES-QUANTIDADE-ELEITORES-AGUAS-VERMELHAS.pdf`](../docs/SECOES-QUANTIDADE-ELEITORES-AGUAS-VERMELHAS.pdf): cópia do PDF de origem da relação de locais e aptos.
 
