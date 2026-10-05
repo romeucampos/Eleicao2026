@@ -1,6 +1,6 @@
 # Eleição 2026 — Águas Vermelhas/MG
 
-Scripts e resultados para consultar boletins de urna por seção e somar votos nominais de deputados federal e estadual.
+Scripts e resultados para consultar boletins de urna por seção e somar votos nominais de senador e deputados federal e estadual.
 
 ## Conteúdo
 
@@ -33,7 +33,7 @@ Para decodificar e gerar as planilhas de votos, consulte as instruções em [`do
 
 ## Escopo dos CSVs atuais
 
-Os arquivos `votos_por_secao_e_candidato.csv` e `votos_somados_por_candidato.csv` contêm votos nominais positivos para deputado federal e estadual. Candidatos com zero voto e votos de legenda, branco e nulo não aparecem nesses CSVs. Os `.dat` são os boletins completos publicados para as seções, com status totalizado.
+Os arquivos `votos_por_secao_e_candidato.csv` e `votos_somados_por_candidato.csv` contêm votos nominais positivos para senador, deputado federal e estadual. Candidatos com zero voto e votos de legenda, branco e nulo não aparecem nesses CSVs. Os `.dat` são os boletins completos publicados para as seções, com status totalizado.
 
 Confira status, hash e fontes na documentação antes de reutilizar os dados. Os resultados processados são transformação dos arquivos oficiais e não substituem a conferência do BU original.
 
