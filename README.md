@@ -7,13 +7,17 @@ Scripts e resultados para consultar boletins de urna por seção e somar votos n
 - `scripts/baixar_bu_raw_aguas_vermelhas_2026.py`: baixa e guarda os BUs brutos completos em `.dat`, sem decodificá-los; gera manifesto com a URL de origem e o SHA-256 local.
 - `scripts/baixar_boletins_por_secao_aguas_vermelhas_2026.py`: baixa os BUs e extrai votos nominais positivos de deputado federal e estadual.
 - `scripts/somar_deputado_federal_por_distrito_bairro.py`: agrupa a extração nominal federal dos BUs por distrito/bairro e por candidato.
+- `scripts/somar_deputado_estadual_por_distrito_bairro.py`: agrupa a extração nominal estadual dos BUs por distrito/bairro e por candidato.
+- `scripts/gerar_html_deputados_distrito_bairro.py`: gera o relatório HTML com abas para deputado federal e estadual.
 - `scripts/baixar_votos_aguas_vermelhas_2026.py`: baixa os resultados nominais usados em outra etapa de análise.
 - `dados/raw/boletins/0213/<seção>/`: 31 BUs `.dat` originais, também disponíveis no ZIP.
 - `dados/`: CSVs, ZIPs dos dados e planilha.
 - `docs/REFERENCIAS_E_LINKS.md`: URLs dos endpoints, referências oficiais e descrição dos arquivos.
 - `docs/`: relatório de seções e quantidade de eleitores.
 
-A soma por distrito/bairro gera `dados/votos_deputado_federal_por_distrito_bairro.csv` e `dados/votos_federal_por_candidato_distrito_bairro.csv`.
+A soma por distrito/bairro gera `dados/votos_deputado_federal_por_distrito_bairro.csv` e `dados/votos_federal_por_candidato_distrito_bairro.csv`. A mesma soma para deputado estadual gera `dados/votos_deputado_estadual_por_distrito_bairro.csv` e `dados/votos_estadual_por_candidato_distrito_bairro.csv`.
+
+O relatório com as duas abas é `relatorio_deputados_federal_estadual_distrito_bairro_atualizado.html`. Ele é gerado a partir dos CSVs derivados dos BUs brutos e traz a sede do município, os distritos ordenados por votos, candidatos sem voto ocultos e o total consolidado de cada cargo.
 
 ## Baixar novamente os boletins brutos
 
