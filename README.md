@@ -32,6 +32,8 @@ Distrito de Marcela.
 - `scripts/baixar_bu_raw_cachoeira_de_pajeu_2026.py`: baixa e preserva os BUs brutos de Cachoeira de Pajeú/MG.
 - `scripts/extrair_votos_cachoeira_de_pajeu_2026.py`: decodifica os `.dat` locais para senador e deputados.
 - `scripts/somar_votos_cachoeira_de_pajeu_por_distrito_bairro.py`: soma qualquer um dos três cargos por distrito/bairro.
+- `scripts/gerar_html_cachoeira_de_pajeu_2026.py`: gera o relatório mobile-first na ordem deputado federal, deputado estadual e senador, com percentuais por distrito e no total.
+- `relatorio_cachoeira_de_pajeu_2026_mobile_first.html`: relatório visual consolidado dos três cargos.
 - `dados/raw/boletins/0213/<seção>/`: 31 BUs `.dat` originais, também disponíveis no ZIP.
 - `dados/`: CSVs, ZIPs dos dados e planilha.
 - `docs/REFERENCIAS_E_LINKS.md`: URLs dos endpoints, referências oficiais e descrição dos arquivos.
