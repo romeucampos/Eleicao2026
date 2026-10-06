@@ -1,14 +1,16 @@
 # Eleição 2026 — Águas Vermelhas/MG
 
-Scripts e resultados para consultar boletins de urna por seção e somar votos nominais de senador e deputados federal e estadual.
+Scripts e resultados para consultar boletins de urna por seção e somar votos nominais de governador, senador e deputados federal e estadual.
 
 ## Conteúdo
 
 - `scripts/baixar_bu_raw_aguas_vermelhas_2026.py`: baixa e guarda os BUs brutos completos em `.dat`, sem decodificá-los; gera manifesto com a URL de origem e o SHA-256 local.
-- `scripts/baixar_boletins_por_secao_aguas_vermelhas_2026.py`: baixa os BUs e extrai votos nominais positivos de deputado federal e estadual.
+- `scripts/baixar_boletins_por_secao_aguas_vermelhas_2026.py`: baixa os BUs e extrai votos nominais positivos de governador, senador, deputado federal e deputado estadual.
 - `scripts/somar_deputado_federal_por_distrito_bairro.py`: agrupa a extração nominal federal dos BUs por distrito/bairro e por candidato.
 - `scripts/somar_deputado_estadual_por_distrito_bairro.py`: agrupa a extração nominal estadual dos BUs por distrito/bairro e por candidato.
+- `scripts/somar_governador_por_distrito_bairro.py`: agrupa a extração nominal de governador dos BUs por distrito/bairro e por candidato.
 - `scripts/gerar_html_deputados_distrito_bairro.py`: gera o relatório HTML com abas para deputado federal e estadual.
+- `scripts/gerar_html_aguas_vermelhas_2026.py`: gera o relatório HTML com abas para os quatro cargos.
 - `scripts/baixar_votos_aguas_vermelhas_2026.py`: baixa os resultados nominais usados em outra etapa de análise.
 - `dados/raw/boletins/0213/<seção>/`: 31 BUs `.dat` originais, também disponíveis no ZIP.
 - `dados/`: CSVs, ZIPs dos dados e planilha.
@@ -17,7 +19,9 @@ Scripts e resultados para consultar boletins de urna por seção e somar votos n
 
 A soma por distrito/bairro gera `dados/votos_deputado_federal_por_distrito_bairro.csv` e `dados/votos_federal_por_candidato_distrito_bairro.csv`. A mesma soma para deputado estadual gera `dados/votos_deputado_estadual_por_distrito_bairro.csv` e `dados/votos_estadual_por_candidato_distrito_bairro.csv`.
 
-O relatório com as duas abas é `relatorio_deputados_federal_estadual_distrito_bairro_atualizado.html`. Ele é gerado a partir dos CSVs derivados dos BUs brutos e traz a sede do município, os distritos ordenados por votos, candidatos sem voto ocultos e o total consolidado de cada cargo.
+Para governador, os arquivos gerados são `dados/votos_governador_por_distrito_bairro.csv` e `dados/votos_governador_por_candidato_distrito_bairro.csv`.
+
+O relatório com os quatro cargos é `relatorio_aguas_vermelhas_2026_mobile_first.html`. Ele é gerado a partir dos CSVs derivados dos BUs brutos e traz a sede do município, os distritos ordenados por votos, candidatos sem voto ocultos, percentuais e o total consolidado de cada cargo.
 
 ## Baixar novamente os boletins brutos
 
@@ -33,7 +37,7 @@ Para decodificar e gerar as planilhas de votos, consulte as instruções em [`do
 
 ## Escopo dos CSVs atuais
 
-Os arquivos `votos_por_secao_e_candidato.csv` e `votos_somados_por_candidato.csv` contêm votos nominais positivos para senador, deputado federal e estadual. Candidatos com zero voto e votos de legenda, branco e nulo não aparecem nesses CSVs. Os `.dat` são os boletins completos publicados para as seções, com status totalizado.
+Os arquivos `votos_por_secao_e_candidato.csv` e `votos_somados_por_candidato.csv` contêm votos nominais positivos para governador, senador, deputado federal e estadual. Candidatos com zero voto e votos de legenda, branco e nulo não aparecem nesses CSVs. Os `.dat` são os boletins completos publicados para as seções, com status totalizado.
 
 Confira status, hash e fontes na documentação antes de reutilizar os dados. Os resultados processados são transformação dos arquivos oficiais e não substituem a conferência do BU original.
 
