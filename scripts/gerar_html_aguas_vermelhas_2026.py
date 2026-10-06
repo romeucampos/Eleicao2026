@@ -13,19 +13,19 @@ BASE = ROOT / "dados"
 
 SPECS = {
     "federal": (
-        "Deputado Federal", BASE / "votos_deputado_federal_por_distrito_bairro.csv",
+        "Deputado Federal", "6", BASE / "votos_deputado_federal_por_distrito_bairro.csv",
         BASE / "votos_federal_por_candidato_distrito_bairro.csv", "votos_nominais_deputado_federal",
     ),
     "estadual": (
-        "Deputado Estadual", BASE / "votos_deputado_estadual_por_distrito_bairro.csv",
+        "Deputado Estadual", "7", BASE / "votos_deputado_estadual_por_distrito_bairro.csv",
         BASE / "votos_estadual_por_candidato_distrito_bairro.csv", "votos_nominais_deputado_estadual",
     ),
     "senador": (
-        "Senador", BASE / "votos_senador_por_distrito_bairro.csv",
+        "Senador", "5", BASE / "votos_senador_por_distrito_bairro.csv",
         BASE / "votos_senador_por_candidato_distrito_bairro.csv", "votos_nominais_senador",
     ),
     "governador": (
-        "Governador", BASE / "votos_governador_por_distrito_bairro.csv",
+        "Governador", "3", BASE / "votos_governador_por_distrito_bairro.csv",
         BASE / "votos_governador_por_candidato_distrito_bairro.csv", "votos_nominais_governador",
     ),
 }
@@ -43,16 +43,38 @@ def district_name(value: str) -> str:
     return "Sede do município" if value.strip().casefold() == "centro" else value.strip()
 
 
-def load_dataset(key: str) -> dict:
-    label, summary_path, candidates_path, total_field = SPECS[key]
+def load_urna_names() -> dict[tuple[str, str, str], str]:
+    """Lê os nomes de urna dos cadastros oficiais EA20 preservados no repositório."""
+    names = {}
+    for path in sorted((BASE / "raw" / "candidatos").glob("*.json")):
+        data = json.loads(path.read_text(encoding="utf-8-sig"))
+        for cargo in data.get("carg", []):
+            cargo_code = str(cargo.get("cd", "")).strip()
+            for agrupamento in cargo.get("agr", []):
+                for partido in agrupamento.get("par", []):
+                    for candidato in partido.get("cand", []):
+                        numero = str(candidato.get("n", "")).strip()
+                        nome = str(candidato.get("nm", "")).strip()
+                        nome_urna = str(candidato.get("nmu") or nome).strip()
+                        if cargo_code and numero and nome:
+                            names[(cargo_code, numero, nome)] = nome_urna
+    return names
+
+
+def load_dataset(key: str, urna_names: dict[tuple[str, str, str], str]) -> dict:
+    label, cargo_code, summary_path, candidates_path, total_field = SPECS[key]
     summary = []
     for row in read_csv(summary_path):
+        leader = row.get("candidato_mais_votado", "")
+        leader_number = row.get("candidato_mais_votado_numero", "")
+        leader_urna = urna_names.get((cargo_code, leader_number, leader), leader)
         summary.append({
             "distrito": district_name(row["distrito_ou_bairro"]),
             "secoes": int(row["quantidade_secoes"]),
             "aptos": int(row["eleitores_aptos"]),
             "votos": int(row[total_field]),
-            "lider": row.get("candidato_mais_votado", ""),
+            "lider": leader_urna,
+            "lider_urna": leader_urna,
             "lider_votos": int(row.get("votos_do_candidato_mais_votado", "0")),
         })
     summary.sort(key=lambda row: (-row["votos"], row["distrito"].casefold()))
@@ -62,17 +84,22 @@ def load_dataset(key: str) -> dict:
         votes = int(row["votos_nominais"])
         if votes <= 0:
             continue
+        candidate = row["candidato"]
+        candidate_number = row["numero"]
+        candidate_urna = urna_names.get((cargo_code, candidate_number, candidate), candidate)
         candidates.append({
             "distrito": district_name(row["distrito_ou_bairro"]),
-            "numero": row["numero"], "candidato": row["candidato"], "partido": row["partido"],
+            "numero": candidate_number, "candidato": candidate_urna,
+            "nome_urna": candidate_urna,
+            "partido": row["partido"],
             "votos": votes, "secoes": row.get("secoes_com_votos", ""),
         })
     candidates.sort(key=lambda row: (row["distrito"].casefold(), -row["votos"], row["candidato"].casefold()))
 
-    totals = defaultdict(lambda: {"numero": "", "candidato": "", "partido": "", "votos": 0, "distritos": set()})
+    totals = defaultdict(lambda: {"numero": "", "candidato": "", "nome_urna": "", "partido": "", "votos": 0, "distritos": set()})
     for row in candidates:
-        item = totals[(row["numero"], row["candidato"], row["partido"])]
-        item.update(numero=row["numero"], candidato=row["candidato"], partido=row["partido"])
+        item = totals[(row["numero"], row["candidato"], row["nome_urna"], row["partido"])]
+        item.update(numero=row["numero"], candidato=row["candidato"], nome_urna=row["nome_urna"], partido=row["partido"])
         item["votos"] += row["votos"]
         item["distritos"].add(row["distrito"])
     ranking = [{**item, "distritos": len(item["distritos"])} for item in totals.values() if item["votos"] > 0]
@@ -109,10 +136,11 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--saida", type=Path, default=ROOT / "relatorio_aguas_vermelhas_2026_mobile_first.html")
     args = parser.parse_args()
-    missing = [str(path) for _, summary, candidates, _ in SPECS.values() for path in (summary, candidates) if not path.is_file()]
+    missing = [str(path) for _, _, summary, candidates, _ in SPECS.values() for path in (summary, candidates) if not path.is_file()]
     if missing:
         parser.error("Arquivos não encontrados: " + ", ".join(missing))
-    datasets = {key: load_dataset(key) for key in ("federal", "estadual", "senador", "governador")}
+    urna_names = load_urna_names()
+    datasets = {key: load_dataset(key, urna_names) for key in ("federal", "estadual", "senador", "governador")}
     args.saida.parent.mkdir(parents=True, exist_ok=True)
     args.saida.write_text(HTML.replace("__DATASETS__", json.dumps(datasets, ensure_ascii=False).replace("</", "<\\/")), encoding="utf-8")
     print(f"HTML: {args.saida}")
