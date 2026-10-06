@@ -1,6 +1,23 @@
-# Eleição 2026 — Águas Vermelhas/MG
+# Eleição 2026 — Águas Vermelhas/MG e Cachoeira de Pajeú/MG
 
 Scripts e resultados para consultar boletins de urna por seção e somar votos nominais de senador e deputados federal e estadual.
+
+## Cachoeira de Pajeú/MG — branch `draft-cachoeira-do-pajeu`
+
+O fluxo de Cachoeira de Pajeú usa o código TSE `40533`, zona `0213` e 30
+seções principais. Os BUs `.dat` ficam em `dados/raw/cachoeira_de_pajeu/`.
+
+```bash
+python3 scripts/baixar_bu_raw_cachoeira_de_pajeu_2026.py
+python3 scripts/extrair_votos_cachoeira_de_pajeu_2026.py
+for cargo in senador federal estadual; do
+  python3 scripts/somar_votos_cachoeira_de_pajeu_por_distrito_bairro.py --cargo "$cargo"
+done
+```
+
+O fluxo gerou 8.433 votos nominais de senador, 4.585 de deputado federal e
+4.183 de deputado estadual. O mapa inclui locais/distritos históricos; o local
+de código `1112` ainda precisa de confirmação nominal.
 
 ## Conteúdo
 
@@ -10,6 +27,9 @@ Scripts e resultados para consultar boletins de urna por seção e somar votos n
 - `scripts/somar_deputado_estadual_por_distrito_bairro.py`: agrupa a extração nominal estadual dos BUs por distrito/bairro e por candidato.
 - `scripts/gerar_html_deputados_distrito_bairro.py`: gera o relatório HTML com abas para deputado federal e estadual.
 - `scripts/baixar_votos_aguas_vermelhas_2026.py`: baixa os resultados nominais usados em outra etapa de análise.
+- `scripts/baixar_bu_raw_cachoeira_de_pajeu_2026.py`: baixa e preserva os BUs brutos de Cachoeira de Pajeú/MG.
+- `scripts/extrair_votos_cachoeira_de_pajeu_2026.py`: decodifica os `.dat` locais para senador e deputados.
+- `scripts/somar_votos_cachoeira_de_pajeu_por_distrito_bairro.py`: soma qualquer um dos três cargos por distrito/bairro.
 - `dados/raw/boletins/0213/<seção>/`: 31 BUs `.dat` originais, também disponíveis no ZIP.
 - `dados/`: CSVs, ZIPs dos dados e planilha.
 - `docs/REFERENCIAS_E_LINKS.md`: URLs dos endpoints, referências oficiais e descrição dos arquivos.
