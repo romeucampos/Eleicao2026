@@ -61,12 +61,6 @@ def load_urna_names() -> dict[tuple[str, str, str], str]:
     return names
 
 
-def candidate_label(full_name: str, urna_name: str) -> str:
-    if not urna_name or urna_name.casefold() == full_name.casefold():
-        return full_name
-    return f"{full_name} · nome de urna: {urna_name}"
-
-
 def load_dataset(key: str, urna_names: dict[tuple[str, str, str], str]) -> dict:
     label, cargo_code, summary_path, candidates_path, total_field = SPECS[key]
     summary = []
@@ -79,7 +73,7 @@ def load_dataset(key: str, urna_names: dict[tuple[str, str, str], str]) -> dict:
             "secoes": int(row["quantidade_secoes"]),
             "aptos": int(row["eleitores_aptos"]),
             "votos": int(row[total_field]),
-            "lider": candidate_label(leader, leader_urna),
+            "lider": leader_urna,
             "lider_urna": leader_urna,
             "lider_votos": int(row.get("votos_do_candidato_mais_votado", "0")),
         })
@@ -95,7 +89,7 @@ def load_dataset(key: str, urna_names: dict[tuple[str, str, str], str]) -> dict:
         candidate_urna = urna_names.get((cargo_code, candidate_number, candidate), candidate)
         candidates.append({
             "distrito": district_name(row["distrito_ou_bairro"]),
-            "numero": candidate_number, "candidato": candidate_label(candidate, candidate_urna),
+            "numero": candidate_number, "candidato": candidate_urna,
             "nome_urna": candidate_urna,
             "partido": row["partido"],
             "votos": votes, "secoes": row.get("secoes_com_votos", ""),
