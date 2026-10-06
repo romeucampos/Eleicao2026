@@ -16,8 +16,10 @@ done
 ```
 
 O fluxo gerou 8.433 votos nominais de senador, 4.585 de deputado federal e
-4.183 de deputado estadual. O mapa inclui locais/distritos históricos; o local
-de código `1112` ainda precisa de confirmação nominal.
+4.183 de deputado estadual. O mapa foi atualizado com o arquivo oficial de
+eleitorado por local/seção do TSE: 6.975 eleitores aptos na eleição federal e
+6.972 na estadual. O local `1112` é a Escola Municipal Castelo Branco II, no
+Distrito de Marcela.
 
 ## Conteúdo
 

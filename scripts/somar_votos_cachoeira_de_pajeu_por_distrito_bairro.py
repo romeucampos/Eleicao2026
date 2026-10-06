@@ -56,12 +56,14 @@ def carregar_mapa(path: Path):
         mapa[secao] = {"distrito": distrito, "chave": chave,
                        "local": str(row["local_votacao"]).strip(),
                        "codigo_local": str(row["codigo_local"]).strip(),
-                       "aptos": str(row.get("eleitores_aptos", "")).strip()}
-        grupo = grupos.setdefault(chave, {"distrito": distrito, "secoes": set(), "locais": set(), "aptos": []})
+                       "aptos_federal": str(row.get("eleitores_aptos", "")).strip(),
+                       "aptos_estadual": str(row.get("eleitores_aptos_estadual", row.get("eleitores_aptos", ""))).strip()}
+        grupo = grupos.setdefault(chave, {"distrito": distrito, "secoes": set(), "locais": set(), "aptos_federal": [], "aptos_estadual": []})
         grupo["secoes"].add(secao)
         grupo["locais"].add(mapa[secao]["local"])
-        if mapa[secao]["aptos"]:
-            grupo["aptos"].append(int(mapa[secao]["aptos"]))
+        for campo in ("aptos_federal", "aptos_estadual"):
+            if mapa[secao][campo]:
+                grupo[campo].append(int(mapa[secao][campo]))
     return mapa, grupos
 
 
@@ -106,7 +108,7 @@ def somar(votos_path: Path, mapa_path: Path, cargo: str):
             "quantidade_secoes": len(grupo["secoes"]),
             "secoes": ", ".join(sorted(grupo["secoes"])),
             "locais_votacao": " | ".join(sorted(grupo["locais"], key=str.casefold)),
-            "eleitores_aptos": sum(grupo["aptos"]) if grupo["aptos"] else "",
+            "eleitores_aptos": sum(grupo["aptos_estadual"] if cargo == "estadual" else grupo["aptos_federal"]),
             CARGOS[cargo][3]: totais[chave],
             "candidato_mais_votado_numero": lider[0],
             "candidato_mais_votado": lider[1],

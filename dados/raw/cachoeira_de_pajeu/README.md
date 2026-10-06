@@ -17,6 +17,7 @@ O extrator lê esses `.dat` locais com
 `scripts/extrair_votos_cachoeira_de_pajeu_2026.py`.
 
 O mapa de seção para local/distrito fica em
-`dados/cachoeira_de_pajeu/secoes_por_local_distrito_bairro.csv`. O local de
-código `1112` ainda está identificado apenas pelo código do BU e deve ser
-confirmado antes de usar esse agrupamento como um mapa definitivo.
+`dados/cachoeira_de_pajeu/secoes_por_local_distrito_bairro.csv`. Ele foi
+confirmado com o arquivo oficial de eleitorado por local/seção do TSE para
+2026; o código `1112` corresponde à Escola Municipal Castelo Branco II, no
+Distrito de Marcela.
