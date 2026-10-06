@@ -3,7 +3,7 @@
 
 Baixa a configuração oficial de seções (EA16), consulta os auxiliares (EA18),
 baixa o BU totalizado de cada seção principal e extrai votos nominais para
-Senador, Deputado Federal e Deputado Estadual.
+Governador, Senador, Deputado Federal e Deputado Estadual.
 
 Dependência: pip install -r requirements_boletins_tse.txt
 """
@@ -28,7 +28,12 @@ ELEICAO = "6259"            # Estadual: governador, senador e deputados
 CODIGO_MUNICIPIO = "40193"  # Águas Vermelhas/MG
 UF = "mg"
 PLEITO = "3220"
-CARGOS = {5: "Senador", 6: "Deputado Federal", 7: "Deputado Estadual"}
+CARGOS = {
+    3: "Governador",
+    5: "Senador",
+    6: "Deputado Federal",
+    7: "Deputado Estadual",
+}
 TSE_BU_ZIP = "https://www.tse.jus.br/eleicoes/eleicoes-2026-content/arquivos/formato-arquivos-de-bu-rdv-e-assinatura-digital"
 USER_AGENT = "consulta-publica-resultados-TSE/1.0"
 

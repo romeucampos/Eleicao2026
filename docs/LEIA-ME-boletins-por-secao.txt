@@ -4,7 +4,7 @@ Como executar
 1. Instale a dependência: python3 -m pip install -r requirements_boletins_tse.txt
 2. Execute: python3 baixar_boletins_por_secao_aguas_vermelhas_2026.py
 
-O script consulta o índice de seções do TSE, baixa o arquivo auxiliar (EA18) de cada seção principal, seleciona o boletim com status Totalizado e salva o arquivo bruto .dat. Ele usa o leiaute ASN.1 publicado pelo TSE para extrair os votos nominais de Deputado Federal e Deputado Estadual.
+O script consulta o índice de seções do TSE, baixa o arquivo auxiliar (EA18) de cada seção principal, seleciona o boletim com status Totalizado e salva o arquivo bruto .dat. Ele usa o leiaute ASN.1 publicado pelo TSE para extrair os votos nominais de Governador, Senador, Deputado Federal e Deputado Estadual.
 
 Arquivos produzidos
 - boletins/0213/<seção>/: boletim .dat bruto de cada seção processada.
