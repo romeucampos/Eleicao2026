@@ -1,6 +1,6 @@
 # Eleição 2026 — Águas Vermelhas/MG
 
-Scripts e resultados para consultar boletins de urna por seção e somar votos nominais de governador, senador e deputados federal e estadual.
+Scripts e resultados para consultar boletins de urna por seção e somar votos nominais de presidente, governador, senador e deputados federal e estadual.
 
 ## Conteúdo
 
@@ -9,8 +9,10 @@ Scripts e resultados para consultar boletins de urna por seção e somar votos n
 - `scripts/somar_deputado_federal_por_distrito_bairro.py`: agrupa a extração nominal federal dos BUs por distrito/bairro e por candidato.
 - `scripts/somar_deputado_estadual_por_distrito_bairro.py`: agrupa a extração nominal estadual dos BUs por distrito/bairro e por candidato.
 - `scripts/somar_governador_por_distrito_bairro.py`: agrupa a extração nominal de governador dos BUs por distrito/bairro e por candidato.
+- `scripts/extrair_presidente_aguas_vermelhas_2026.py`: preserva os BUs do 2º turno e extrai Presidente nos dois turnos.
+- `scripts/somar_presidente_aguas_vermelhas_2026.py`: agrega Presidente do 1º e do 2º turno por distrito/bairro e candidato.
 - `scripts/gerar_html_deputados_distrito_bairro.py`: gera o relatório HTML com abas para deputado federal e estadual.
-- `scripts/gerar_html_aguas_vermelhas_2026.py`: gera o relatório HTML com abas para os quatro cargos.
+- `scripts/gerar_html_aguas_vermelhas_2026.py`: gera o relatório HTML com abas para os quatro cargos e os dois turnos de Presidente.
 - `scripts/baixar_votos_aguas_vermelhas_2026.py`: baixa os resultados nominais usados em outra etapa de análise.
 - `dados/raw/boletins/0213/<seção>/`: 31 BUs `.dat` originais, também disponíveis no ZIP.
 - `dados/`: CSVs, ZIPs dos dados e planilha.
@@ -21,7 +23,7 @@ A soma por distrito/bairro gera `dados/votos_deputado_federal_por_distrito_bairr
 
 Para governador, os arquivos gerados são `dados/votos_governador_por_distrito_bairro.csv` e `dados/votos_governador_por_candidato_distrito_bairro.csv`.
 
-O relatório com os quatro cargos é `relatorio_aguas_vermelhas_2026_mobile_first.html`. Ele é gerado a partir dos CSVs derivados dos BUs brutos e traz a sede do município, os distritos ordenados por votos, candidatos sem voto ocultos, percentuais e o total consolidado de cada cargo.
+O relatório `relatorio_aguas_vermelhas_2026_mobile_first.html` é gerado a partir dos CSVs derivados dos BUs brutos e traz seis abas: deputado federal, deputado estadual, senador, governador, Presidente no 1º turno e Presidente no 2º turno. A sede do município e os demais distritos são ordenados por votos, candidatos sem voto são ocultados, e cada aba mostra percentuais e o total consolidado do cargo/turno.
 
 ## Baixar novamente os boletins brutos
 
@@ -37,7 +39,22 @@ Para decodificar e gerar as planilhas de votos, consulte as instruções em [`do
 
 ## Escopo dos CSVs atuais
 
-Os arquivos `votos_por_secao_e_candidato.csv` e `votos_somados_por_candidato.csv` contêm votos nominais positivos para governador, senador, deputado federal e estadual. Candidatos com zero voto e votos de legenda, branco e nulo não aparecem nesses CSVs. Os `.dat` são os boletins completos publicados para as seções, com status totalizado.
+Os arquivos `votos_por_secao_e_candidato.csv` e `votos_somados_por_candidato.csv` contêm votos nominais positivos para governador, senador, deputado federal e estadual. O arquivo `presidente_por_secao_e_candidato_2026.csv` separa os votos de Presidente pelos turnos `1` e `2`. Candidatos com zero voto e votos de legenda, branco e nulo não aparecem nesses CSVs. Os `.dat` são os boletins completos publicados para as seções, com status totalizado.
+
+### Presidente nos dois turnos
+
+Os BUs presidenciais do 1º turno estão em `dados/raw/boletins/` e os do 2º turno em `dados/raw/boletins/2o_turno/`. Os cadastros oficiais de candidatos são `mg40193-c0001-e006257-u.json` e `mg40193-c0001-e006258-u.json`; os códigos de eleição são `6257` (1º turno) e `6258` (2º turno), e os pleitos de arquivos de urna são `3220` e `3221`.
+
+Para reproduzir a atualização:
+
+```bash
+python3 -m pip install -r scripts/requirements_boletins_tse.txt
+python3 scripts/extrair_presidente_aguas_vermelhas_2026.py
+python3 scripts/somar_presidente_aguas_vermelhas_2026.py
+python3 scripts/gerar_html_aguas_vermelhas_2026.py
+```
+
+Na extração validada, foram processadas 31 seções em cada turno. Os totais nominais conferidos com o cadastro municipal oficial foram 7.149 no 1º turno e 7.422 no 2º turno.
 
 Confira status, hash e fontes na documentação antes de reutilizar os dados. Os resultados processados são transformação dos arquivos oficiais e não substituem a conferência do BU original.
 
