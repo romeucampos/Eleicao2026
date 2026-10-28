@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Gera o relatório mobile-first de Águas Vermelhas com quatro cargos."""
+"""Gera o relatório mobile-first de Águas Vermelhas com seis abas."""
 from __future__ import annotations
 
 import argparse
@@ -27,6 +27,14 @@ SPECS = {
     "governador": (
         "Governador", "3", BASE / "votos_governador_por_distrito_bairro.csv",
         BASE / "votos_governador_por_candidato_distrito_bairro.csv", "votos_nominais_governador",
+    ),
+    "presidente_1_turno": (
+        "Presidente · 1º turno", "1", BASE / "votos_presidente_1_turno_por_distrito_bairro.csv",
+        BASE / "votos_presidente_1_turno_por_candidato_distrito_bairro.csv", "votos_nominais_presidente",
+    ),
+    "presidente_2_turno": (
+        "Presidente · 2º turno", "1", BASE / "votos_presidente_2_turno_por_distrito_bairro.csv",
+        BASE / "votos_presidente_2_turno_por_candidato_distrito_bairro.csv", "votos_nominais_presidente",
     ),
 }
 
@@ -114,14 +122,14 @@ def load_dataset(key: str, urna_names: dict[tuple[str, str, str], str]) -> dict:
 
 HTML = r'''<!doctype html>
 <html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Votos nominais de governador, senador e deputados por distrito e bairro em Águas Vermelhas, MG.">
+<meta name="description" content="Votos nominais de presidente, governador, senador e deputados por distrito e bairro em Águas Vermelhas, MG.">
 <title>Resultados por cargo — Águas Vermelhas/MG</title>
 <style>
 :root{--ink:#18251f;--muted:#63736b;--line:#dce5df;--paper:#fff;--bg:#f3f7f4;--green:#17683d;--green2:#e6f3eb;--shadow:0 8px 28px #193b2910}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}header{background:linear-gradient(120deg,#114c31,#20834b);color:#fff;padding:26px max(16px,calc((100% - 1160px)/2)) 24px}header .eyebrow{font-size:12px;text-transform:uppercase;letter-spacing:.14em;opacity:.8;font-weight:700}h1{font-size:clamp(28px,8vw,42px);line-height:1.1;margin:8px 0}.sub{max-width:820px;color:#e2f1e7;margin:10px 0 0}.wrap{max-width:1160px;margin:0 auto;padding:12px 12px 50px}.tabs{display:flex;gap:8px;position:sticky;top:0;z-index:10;margin:0 -12px 12px;padding:8px 12px;background:#f3f7f4eb;backdrop-filter:blur(10px)}.tab{flex:1;border:1px solid #c8d6cd;background:#fff;color:var(--green);border-radius:10px;padding:12px 8px;min-height:48px;font:700 14px system-ui;cursor:pointer}.tab.active{background:var(--green);border-color:var(--green);color:#fff}.panel[hidden]{display:none}.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.stat,.district,.totals{background:var(--paper);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow)}.stat{padding:15px}.stat small{display:block;color:var(--muted);font-weight:650}.stat strong{font-size:25px}.tools{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:22px 0 14px}.tools input{flex:1;min-width:230px;padding:12px 14px;border:1px solid #c8d6cd;border-radius:10px;background:#fff;font:inherit}.hint{color:var(--muted);font-size:13px}.districts{display:grid;gap:12px}.district{overflow:hidden}.dhead{padding:16px;display:flex;align-items:center;gap:12px;cursor:pointer;list-style:none}.dhead::-webkit-details-marker{display:none}.dhead::after{content:'＋';margin-left:auto;color:var(--green);font-size:22px}.district[open] .dhead::after{content:'−'}.rank{width:34px;height:34px;border-radius:50%;background:var(--green2);color:var(--green);display:grid;place-items:center;font-weight:800;flex:none}.dname{font-weight:760}.dmeta{display:block;color:var(--muted);font-size:13px}.dtotal{margin-left:auto;text-align:right;white-space:nowrap}.dtotal strong{font-size:20px;display:block}.dtotal small{color:var(--muted)}.bar{height:6px;background:#edf2ee;margin:0 16px 16px;border-radius:9px;overflow:hidden}.bar span{display:block;background:var(--green);height:100%;border-radius:9px}.inside{padding:0 12px 15px}.inside h3{font-size:14px;margin:0 0 10px;color:#35463d}.tablewrap{overflow:auto;border:1px solid var(--line);border-radius:10px}table{border-collapse:collapse;width:100%;min-width:700px}th,td{padding:10px 12px;text-align:left;border-bottom:1px solid #e8eee9;vertical-align:top}th{font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);background:#f7faf8}tbody tr:last-child td{border-bottom:0}td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}.cand{font-weight:700}.party{display:inline-block;padding:2px 7px;background:#f0f4f1;border-radius:5px;font-size:12px;color:#415449}.share,.sections{font-size:12px;color:var(--muted)}.totals{margin-top:24px;padding:17px}.totals h2{font-size:21px;margin:0 0 12px}.totalcards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:15px}.totalcard{background:#f6faf7;border:1px solid var(--line);border-radius:10px;padding:11px 13px}.totalcard small{display:block;color:var(--muted)}.totalcard strong{font-size:20px}.totalrow td{font-weight:800;background:#f3f7f4}.notes{margin-top:18px;padding:15px;background:#fff8e9;border:1px solid #f0dfb7;border-radius:12px;color:#59451f;font-size:13px}footer{margin-top:18px;color:var(--muted);font-size:12px}@media(max-width:680px){.stats,.totalcards{grid-template-columns:repeat(2,minmax(0,1fr))}.stat:last-child{grid-column:1/-1}.tab{font-size:13px}.dhead{gap:8px}.dmeta{max-width:210px}.dtotal strong{font-size:18px}}
 </style></head><body>
-<header><div class="eyebrow">Eleições 2026 · Águas Vermelhas / MG</div><h1>Votos por distrito e candidato</h1><p class="sub">Consulte governador, senador, deputado federal e deputado estadual. Os distritos são ordenados pelos votos nominais; percentuais são calculados dentro do distrito e no total municipal.</p></header>
-<main class="wrap"><nav class="tabs" aria-label="Cargo"><button class="tab active" data-cargo="federal" type="button">Deputado Federal</button><button class="tab" data-cargo="estadual" type="button">Deputado Estadual</button><button class="tab" data-cargo="senador" type="button">Senador</button><button class="tab" data-cargo="governador" type="button">Governador</button></nav>
-<section class="panel" data-panel="federal"></section><section class="panel" data-panel="estadual" hidden></section><section class="panel" data-panel="senador" hidden></section><section class="panel" data-panel="governador" hidden></section>
+<header><div class="eyebrow">Eleições 2026 · Águas Vermelhas / MG</div><h1>Votos por distrito e candidato</h1><p class="sub">Consulte presidente, governador, senador, deputado federal e deputado estadual. Os distritos são ordenados pelos votos nominais; percentuais são calculados dentro do distrito e no total municipal.</p></header>
+<main class="wrap"><nav class="tabs" aria-label="Cargo"><button class="tab active" data-cargo="federal" type="button">Deputado Federal</button><button class="tab" data-cargo="estadual" type="button">Deputado Estadual</button><button class="tab" data-cargo="senador" type="button">Senador</button><button class="tab" data-cargo="governador" type="button">Governador</button><button class="tab" data-cargo="presidente_1_turno" type="button">Presidente · 1º turno</button><button class="tab" data-cargo="presidente_2_turno" type="button">Presidente · 2º turno</button></nav>
+<section class="panel" data-panel="federal"></section><section class="panel" data-panel="estadual" hidden></section><section class="panel" data-panel="senador" hidden></section><section class="panel" data-panel="governador" hidden></section><section class="panel" data-panel="presidente_1_turno" hidden></section><section class="panel" data-panel="presidente_2_turno" hidden></section>
 <div class="notes"><strong>Como ler:</strong> candidatos sem voto são ocultados. “Seções” mostra onde o candidato recebeu voto. Votos de legenda, brancos e nulos não estão incluídos. Os resultados foram extraídos dos BUs brutos do TSE.</div><footer>Fonte: boletins de urna, dados oficiais de candidatos e mapa de seções deste repositório. Os arquivos .dat permitem auditoria.<br><br>GitHub: <a href="https://github.com/romeucampos">@romeucampos</a> · Projeto: <a href="https://github.com/romeucampos/Eleicao2026">Eleicao2026</a> · <a href="https://github.com/romeucampos/Eleicao2026/tree/main/dados">Dados</a><br>Feito por Romeu Campos.</footer></main>
 <script>
 const DATA=__DATASETS__,fmt=new Intl.NumberFormat('pt-BR');
@@ -142,7 +150,7 @@ def main() -> int:
     if missing:
         parser.error("Arquivos não encontrados: " + ", ".join(missing))
     urna_names = load_urna_names()
-    datasets = {key: load_dataset(key, urna_names) for key in ("federal", "estadual", "senador", "governador")}
+    datasets = {key: load_dataset(key, urna_names) for key in ("federal", "estadual", "senador", "governador", "presidente_1_turno", "presidente_2_turno")}
     args.saida.parent.mkdir(parents=True, exist_ok=True)
     args.saida.write_text(HTML.replace("__DATASETS__", json.dumps(datasets, ensure_ascii=False).replace("</", "<\\/")), encoding="utf-8")
     print(f"HTML: {args.saida}")
